@@ -9,13 +9,19 @@
     "client": "./node_modules/.bin/ts-node build/dev-server.ts",
     "dashboard": "webpack-dashboard -- ./node_modules/.bin/ts-node build/dev-server.ts",
     "build": "./node_modules/.bin/ts-node build/build.ts",
-    "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache",
+    "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public",
     "test": "jest"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint",
+      "git add"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint",
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -137,6 +143,7 @@
     "less": "^3.10.3",
     "less-loader": "^4.1.0",
     "less-plugin-autoprefix": "^1.5.1",
+    "lint-staged": "^9.5.0",
     "nodemon": "^1.17.3",
     "opn": "^4.0.2",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
